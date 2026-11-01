@@ -1,105 +1,214 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ta">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#075b48">
+  <meta name="theme-color" content="#123D70">
   <title>Noor-e-Deen</title>
+
   <style>
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f3f8f5;
-      color: #173b32;
+      background: #123D70;
+      color: white;
     }
+
     header {
-      background: #075b48;
+      background: #0D2F59;
       color: white;
       text-align: center;
-      padding: 30px 15px;
+      padding: 25px 15px;
     }
+
     header h1 { margin: 0 0 8px; }
+
     main {
       max-width: 600px;
       margin: auto;
       padding: 18px;
     }
+
     .card {
-      background: white;
+      background: #1B4778;
       padding: 20px;
       margin: 15px 0;
       border-radius: 16px;
-      box-shadow: 0 3px 12px #00000010;
+      box-shadow: 0 3px 12px #00000020;
     }
-    h2 { color: #075b48; }
+
+    h2 { color: #D8EDFF; }
+
+    .dua-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      width: 100%;
+      background: #EAF4FF;
+      color: #173D68;
+      border: none;
+      padding: 18px;
+      margin: 12px 0;
+      border-radius: 14px;
+      text-align: left;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .number {
+      background: #C9E5FF;
+      color: #174B7C;
+      min-width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+    }
+
+    .arrow { margin-left: auto; }
+
     button {
-      background: #08765b;
-      color: white;
+      background: #D8EDFF;
+      color: #123D70;
       border: 0;
-      padding: 12px 20px;
+      padding: 12px 18px;
       border-radius: 10px;
       font-size: 16px;
       cursor: pointer;
       margin: 5px;
     }
-    #count { font-size: 32px; font-weight: bold; }
-    .arabic { font-size: 25px; text-align: right; line-height: 2; }
-    footer { text-align: center; padding: 20px; color: #55756b; }
+
+    #count {
+      font-size: 32px;
+      font-weight: bold;
+    }
+
+    .arabic {
+      font-size: 25px;
+      text-align: right;
+      line-height: 2;
+    }
+
+    .back-button {
+      background: #D8EDFF;
+      margin-bottom: 15px;
+    }
+
+    .hidden { display: none; }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      color: #D8EDFF;
+    }
   </style>
 </head>
+
 <body>
-  <header>
-    <h1>☪ Noor-e-Deen</h1>
-    <p>Your Daily Islamic Companion</p>
-  </header>
 
-  <main>
-    <section class="card">
-      <h2>🌙 Daily Dua</h2>
-      <p class="arabic" dir="rtl">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</p>
-      <p>Our Lord, grant us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.</p>
-      <small>Quran 2:201</small>
-    </section>
+<header>
+  <h1>☪ Noor-e-Deen</h1>
+  <p>Your Daily Islamic Companion</p>
+</header>
 
-    <section class="card">
-      <h2>📿 Tasbeeh Counter</h2>
-      <p id="count">0</p>
-      <button onclick="increase()">Count +1</button>
-      <button onclick="resetCount()">Reset</button>
-    </section>
+<main>
 
-    <section class="card">
-      <h2>📖 Islamic Quiz</h2>
-      <p>How many obligatory prayers are there each day?</p>
-      <button onclick="checkAnswer(5)">5</button>
-      <button onclick="checkAnswer(3)">3</button>
-      <button onclick="checkAnswer(7)">7</button>
-      <p id="result"></p>
-    </section>
+  <section class="card" id="duaSection">
+    <h2>🌙 Daily Dua</h2>
+    <p>Choose a Dua category</p>
 
-    <section class="card">
-      <h2>🔔 Daily Reminder</h2>
-      <p>Take a little time today for prayer, gratitude and remembrance of Allah.</p>
-    </section>
-  </main>
+    <div id="duaList"></div>
+  </section>
 
-  <footer>Made with care • Noor-e-Deen</footer>
+  <section class="card hidden" id="duaDetail">
+    <button class="back-button" onclick="showDuaList()">← Back</button>
+    <h2 id="duaTitle"></h2>
+    <p>இந்தத் தலைப்புக்கான துஆ உள்ளடக்கம் விரைவில் சேர்க்கப்படும்.</p>
+  </section>
 
-  <script>
-    let count = 0;
-    function increase() {
-      count++;
-      document.getElementById("count").textContent = count;
-    }
-    function resetCount() {
-      count = 0;
-      document.getElementById("count").textContent = count;
-    }
-    function checkAnswer(answer) {
-      document.getElementById("result").textContent =
-        answer === 5 ? "Correct! MashaAllah 🌟" : "Try again!";
-    }
-  </script>
+  <section class="card">
+    <h2>📿 Tasbeeh Counter</h2>
+    <p id="count">0</p>
+    <button onclick="increase()">Count +1</button>
+    <button onclick="resetCount()">Reset</button>
+  </section>
+
+  <section class="card">
+    <h2>📖 Islamic Quiz</h2>
+    <p>How many obligatory prayers are there each day?</p>
+    <button onclick="checkAnswer(5)">5</button>
+    <button onclick="checkAnswer(3)">3</button>
+    <button onclick="checkAnswer(7)">7</button>
+    <p id="result"></p>
+  </section>
+
+  <section class="card">
+    <h2>🔔 Daily Reminder</h2>
+    <p>Take a little time today for prayer, gratitude and remembrance of Allah.</p>
+  </section>
+
+</main>
+
+<footer>Made with care • Noor-e-Deen</footer>
+
+<script>
+  const duaCategories = [
+    "பாவமன்னிப்பு கோருவதில் தலையாய துஆ",
+    "தூங்கும் முன்",
+    "தூங்கி எழுந்தவுடன்",
+    "தஹஜ்ஜுத் தொழுகைக்கு எழும்போது",
+    "கெட்ட கனவு கண்டால்",
+    "காலையில்",
+    "மாலையில்"
+  ];
+
+  const duaList = document.getElementById("duaList");
+
+  duaCategories.forEach((title, index) => {
+    const button = document.createElement("button");
+    button.className = "dua-item";
+
+    button.innerHTML = `
+      <span class="number">${index + 1}</span>
+      <span>${title}</span>
+      <span class="arrow">›</span>
+    `;
+
+    button.onclick = () => openDua(title);
+    duaList.appendChild(button);
+  });
+
+  function openDua(title) {
+    document.getElementById("duaSection").classList.add("hidden");
+    document.getElementById("duaDetail").classList.remove("hidden");
+    document.getElementById("duaTitle").textContent = title;
+  }
+
+  function showDuaList() {
+    document.getElementById("duaDetail").classList.add("hidden");
+    document.getElementById("duaSection").classList.remove("hidden");
+  }
+
+  let count = 0;
+
+  function increase() {
+    count++;
+    document.getElementById("count").textContent = count;
+  }
+
+  function resetCount() {
+    count = 0;
+    document.getElementById("count").textContent = count;
+  }
+
+  function checkAnswer(answer) {
+    document.getElementById("result").textContent =
+      answer === 5 ? "Correct! MashaAllah 🌟" : "Try again!";
+  }
+</script>
+
 </body>
 </html>
