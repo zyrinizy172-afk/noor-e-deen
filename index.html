@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#075b48">
+  <title>Noor-e-Deen</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f3f8f5;
+      color: #173b32;
+    }
+    header {
+      background: #075b48;
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+    }
+    header h1 { margin: 0 0 8px; }
+    main {
+      max-width: 600px;
+      margin: auto;
+      padding: 18px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 16px;
+      box-shadow: 0 3px 12px #00000010;
+    }
+    h2 { color: #075b48; }
+    button {
+      background: #08765b;
+      color: white;
+      border: 0;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    #count { font-size: 32px; font-weight: bold; }
+    .arabic { font-size: 25px; text-align: right; line-height: 2; }
+    footer { text-align: center; padding: 20px; color: #55756b; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>☪ Noor-e-Deen</h1>
+    <p>Your Daily Islamic Companion</p>
+  </header>
+
+  <main>
+    <section class="card">
+      <h2>🌙 Daily Dua</h2>
+      <p class="arabic" dir="rtl">رَبَّنَا آتِنَا فِي الدُّنْيَا حَسَنَةً وَفِي الْآخِرَةِ حَسَنَةً وَقِنَا عَذَابَ النَّارِ</p>
+      <p>Our Lord, grant us good in this world and good in the Hereafter, and protect us from the punishment of the Fire.</p>
+      <small>Quran 2:201</small>
+    </section>
+
+    <section class="card">
+      <h2>📿 Tasbeeh Counter</h2>
+      <p id="count">0</p>
+      <button onclick="increase()">Count +1</button>
+      <button onclick="resetCount()">Reset</button>
+    </section>
+
+    <section class="card">
+      <h2>📖 Islamic Quiz</h2>
+      <p>How many obligatory prayers are there each day?</p>
+      <button onclick="checkAnswer(5)">5</button>
+      <button onclick="checkAnswer(3)">3</button>
+      <button onclick="checkAnswer(7)">7</button>
+      <p id="result"></p>
+    </section>
+
+    <section class="card">
+      <h2>🔔 Daily Reminder</h2>
+      <p>Take a little time today for prayer, gratitude and remembrance of Allah.</p>
+    </section>
+  </main>
+
+  <footer>Made with care • Noor-e-Deen</footer>
+
+  <script>
+    let count = 0;
+    function increase() {
+      count++;
+      document.getElementById("count").textContent = count;
+    }
+    function resetCount() {
+      count = 0;
+      document.getElementById("count").textContent = count;
+    }
+    function checkAnswer(answer) {
+      document.getElementById("result").textContent =
+        answer === 5 ? "Correct! MashaAllah 🌟" : "Try again!";
+    }
+  </script>
+</body>
+</html>
