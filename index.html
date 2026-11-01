@@ -7,7 +7,9 @@
   <title>Noor-e-Deen</title>
 
   <style>
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
@@ -23,7 +25,9 @@
       padding: 25px 15px;
     }
 
-    header h1 { margin: 0 0 8px; }
+    header h1 {
+      margin: 0 0 8px;
+    }
 
     main {
       max-width: 600px;
@@ -39,7 +43,9 @@
       box-shadow: 0 3px 12px #00000020;
     }
 
-    h2 { color: #D8EDFF; }
+    h2 {
+      color: #D8EDFF;
+    }
 
     .dua-item {
       display: flex;
@@ -68,7 +74,9 @@
       place-items: center;
     }
 
-    .arrow { margin-left: auto; }
+    .arrow {
+      margin-left: auto;
+    }
 
     button {
       background: #D8EDFF;
@@ -89,7 +97,32 @@
     .arabic {
       font-size: 25px;
       text-align: right;
+      direction: rtl;
       line-height: 2;
+      background: #123D70;
+      padding: 15px;
+      border-radius: 12px;
+    }
+
+    .dua-block {
+      background: #245486;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 12px;
+    }
+
+    .dua-block h3 {
+      color: #D8EDFF;
+    }
+
+    .dua-text {
+      line-height: 1.9;
+      white-space: pre-wrap;
+    }
+
+    .dua-label {
+      color: #C9E5FF;
+      font-weight: bold;
     }
 
     .back-button {
@@ -97,7 +130,21 @@
       margin-bottom: 15px;
     }
 
-    .hidden { display: none; }
+    .hidden {
+      display: none;
+    }
+
+    .reminder-item {
+      background: #245486;
+      padding: 14px;
+      border-radius: 12px;
+      margin: 12px 0;
+      line-height: 1.8;
+    }
+
+    .reminder-item p {
+      margin: 6px 0;
+    }
 
     footer {
       text-align: center;
@@ -116,19 +163,20 @@
 
 <main>
 
+  <!-- DAILY DUA -->
   <section class="card" id="duaSection">
     <h2>🌙 Daily Dua</h2>
     <p>Choose a Dua category</p>
-
     <div id="duaList"></div>
   </section>
 
   <section class="card hidden" id="duaDetail">
     <button class="back-button" onclick="showDuaList()">← Back</button>
     <h2 id="duaTitle"></h2>
-    <p>இந்தத் தலைப்புக்கான துஆ உள்ளடக்கம் விரைவில் சேர்க்கப்படும்.</p>
+    <div id="duaContent"></div>
   </section>
 
+  <!-- TASBEEH COUNTER -->
   <section class="card">
     <h2>📿 Tasbeeh Counter</h2>
     <p id="count">0</p>
@@ -136,25 +184,43 @@
     <button onclick="resetCount()">Reset</button>
   </section>
 
+  <!-- ISLAMIC QUIZ -->
   <section class="card">
     <h2>📖 Islamic Quiz</h2>
-    <p>How many obligatory prayers are there each day?</p>
+
+    <p>
+      <strong>English:</strong>
+      How many obligatory prayers are there each day?
+    </p>
+
+    <p>
+      <strong>தமிழ்:</strong>
+      ஒவ்வொரு நாளும் எத்தனை நேரத் தொழுகைகள் கடமையாக்கப்பட்டுள்ளன?
+    </p>
+
     <button onclick="checkAnswer(5)">5</button>
     <button onclick="checkAnswer(3)">3</button>
     <button onclick="checkAnswer(7)">7</button>
-    <p id="result"></p>
+
+    <p id="result" aria-live="polite"></p>
   </section>
 
+  <!-- DAILY REMINDER -->
   <section class="card">
     <h2>🔔 Daily Reminder</h2>
-    <p>Take a little time today for prayer, gratitude and remembrance of Allah.</p>
+    <div id="reminderList"></div>
   </section>
 
 </main>
 
-<footer>Made with care • Noor-e-Deen</footer>
+<footer>
+  Made with care • Noor-e-Deen
+</footer>
 
 <script>
+
+  // DUA CATEGORIES
+
   const duaCategories = [
     "பாவமன்னிப்பு கோருவதில் தலையாய துஆ",
     "தூங்கும் முன்",
@@ -165,49 +231,230 @@
     "மாலையில்"
   ];
 
+
+  // DAILY DUA CONTENT
+
+  const duas = {
+
+    "பாவமன்னிப்பு கோருவதில் தலையாய துஆ": [
+
+      {
+        title: "பாவமன்னிப்பு கோருவதில் தலையாய துஆ (ஸய்யிதுல் இஸ்திக்ஃபார்)",
+
+        virtue: "கீழ்க்காணும் துஆவை ஒருவன் பகலில் ஓதிவிட்டு அன்றே மரணித்தால் அவன் சொர்க்கவாசியாவான். இரவில் ஓதிவிட்டு இரவிலேயே மரணித்துவிட்டால் அவனும் சொர்க்கவாசியாவான் என்று நபிகள் நாயகம் ﷺ கூறினார்கள்.",
+
+        arabic: "اَللّهُمَّ أَنْتَ رَبّي لاَ إِلَهَ إِلاَّ أَنْتَ خَلَقْتَنِيْ وَأَنَا عَبْدُكَ وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوْذُ بِكَ مِنْ شَرِّ مَا صَنَعْتَ أَبُوْءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوْءُ لَكَ بِذَنْبِيْ فَاغْفِرْ لِيْ فَإِنَّهُ لاَ يَغْفِرُ الذُّنُوبَ إِلاَّ أَنْتَ",
+
+        pronunciation: "அல்லாஹும்ம அன்(த்)த ரப்பீ லாயிலாஹ இல்லா அன்(த்)த கலக்(த்)தனீ வஅன அப்து(க்)க வஅன அலா அஹ்தி(க்)க வவஃதி(க்)க மஸ்ததஃ(த்)து அவூது பி(க்)க மின்ஷர்ரி மாஸனஃ(த்)து அஃபூவு ல(க்)க பினிஃமதி(க்)க அலய்ய, வஅஃபூவு ல(க்)க பிதன்பீ ஃபக்ஃபிர்லீஃபஇன்னஹு லா யஃக்ஃபிருத் துனூப இல்லா அன்(த்)த",
+
+        meaning: "இறைவா! நீயே என் எஜமான். உன்னைத் தவிர வணக்கத்திற்குரியவன் யாருமில்லை. என்னை நீயே படைத்தாய். நான் உனது அடிமை. உனது உடன்படிக்கையின்படியும் வாக்குறுதியின் படியும் என்னால் இயன்ற வரை நடப்பேன். நான் செய்த தீமையை விட்டு உன்னிடம் பாதுகாப்புத் தேடுகிறேன். நீ எனக்குச் செய்த அருளோடும் நான் செய்த பாவத்தோடும் உன்னிடம் மீள்கிறேன். எனவே என்னை மன்னிப்பாயாக! உன்னைத் தவிர யாரும் பாவங்களை மன்னிக்க முடியாது.",
+
+        reference: "புகாரி 6306"
+      }
+
+    ]
+
+  };
+
+
+  // DISPLAY DUA CATEGORIES
+
   const duaList = document.getElementById("duaList");
 
   duaCategories.forEach((title, index) => {
+
     const button = document.createElement("button");
     button.className = "dua-item";
 
-    button.innerHTML = `
-      <span class="number">${index + 1}</span>
-      <span>${title}</span>
-      <span class="arrow">›</span>
-    `;
+    const number = document.createElement("span");
+    number.className = "number";
+    number.textContent = index + 1;
+
+    const name = document.createElement("span");
+    name.textContent = title;
+
+    const arrow = document.createElement("span");
+    arrow.className = "arrow";
+    arrow.textContent = "›";
+
+    button.append(number, name, arrow);
 
     button.onclick = () => openDua(title);
+
     duaList.appendChild(button);
+
   });
 
-  function openDua(title) {
-    document.getElementById("duaSection").classList.add("hidden");
-    document.getElementById("duaDetail").classList.remove("hidden");
-    document.getElementById("duaTitle").textContent = title;
+
+  // ADD DUA DETAILS
+
+  function addDuaField(container, label, value, isArabic = false) {
+
+    if (!value) return;
+
+    const block = document.createElement("div");
+    block.className = "dua-block";
+
+    const heading = document.createElement("p");
+    heading.className = "dua-label";
+    heading.textContent = label;
+
+    block.appendChild(heading);
+
+    const text = document.createElement("p");
+
+    text.className = isArabic ? "arabic" : "dua-text";
+    text.textContent = value;
+
+    block.appendChild(text);
+    container.appendChild(block);
+
   }
 
-  function showDuaList() {
-    document.getElementById("duaDetail").classList.add("hidden");
-    document.getElementById("duaSection").classList.remove("hidden");
+
+  // OPEN DUA
+
+  function openDua(title) {
+
+    document.getElementById("duaSection").classList.add("hidden");
+
+    document.getElementById("duaDetail").classList.remove("hidden");
+
+    document.getElementById("duaTitle").textContent = title;
+
+    const content = document.getElementById("duaContent");
+
+    content.replaceChildren();
+
+    const entries = duas[title] || [];
+
+    if (entries.length === 0) {
+
+      const note = document.createElement("p");
+
+      note.textContent = "இந்தப் பிரிவுக்கான துஆக்கள் பின்னர் சேர்க்கப்படும்.";
+
+      content.appendChild(note);
+
+      return;
+    }
+
+    entries.forEach((dua) => {
+
+      const heading = document.createElement("h3");
+
+      heading.textContent = dua.title;
+
+      content.appendChild(heading);
+
+      addDuaField(content, "சிறப்பு", dua.virtue);
+
+      addDuaField(content, "அரபி", dua.arabic, true);
+
+      addDuaField(content, "தமிழ் உச்சரிப்பு", dua.pronunciation);
+
+      addDuaField(content, "தமிழ் பொருள்", dua.meaning);
+
+      addDuaField(content, "ஆதாரம்", dua.reference);
+
+    });
+
   }
+
+
+  // BACK TO DUA LIST
+
+  function showDuaList() {
+
+    document.getElementById("duaDetail").classList.add("hidden");
+
+    document.getElementById("duaSection").classList.remove("hidden");
+
+  }
+
+
+  // TASBEEH COUNTER
 
   let count = 0;
 
   function increase() {
+
     count++;
+
     document.getElementById("count").textContent = count;
+
   }
 
   function resetCount() {
+
     count = 0;
+
     document.getElementById("count").textContent = count;
+
   }
 
+
+  // ISLAMIC QUIZ
+
   function checkAnswer(answer) {
-    document.getElementById("result").textContent =
-      answer === 5 ? "Correct! MashaAllah 🌟" : "Try again!";
+
+    const result = document.getElementById("result");
+
+    result.textContent = answer === 5
+
+      ? "Correct! MashaAllah 🌟 / சரியான பதில்! மாஷா அல்லாஹ் 🌟"
+
+      : "Try again! / மீண்டும் முயற்சி செய்யுங்கள்!";
+
   }
+
+
+  // DAILY REMINDERS
+  // புதிய Reminder சேர்க்கும்போது பழையவற்றை நீக்க வேண்டாம்.
+
+  const dailyReminders = [
+
+    {
+      english: "Take a little time today for prayer, gratitude and remembrance of Allah.",
+
+      tamil: "இன்று தொழுகை, நன்றியுணர்வு மற்றும் அல்லாஹ்வை நினைவுகூர்வதற்காகச் சிறிது நேரம் ஒதுக்குங்கள்."
+    }
+
+  ];
+
+
+  // DISPLAY ALL REMINDERS
+
+  const reminderList = document.getElementById("reminderList");
+
+  dailyReminders.forEach((reminder, index) => {
+
+    const item = document.createElement("div");
+
+    item.className = "reminder-item";
+
+    const title = document.createElement("strong");
+
+    title.textContent = "Reminder " + (index + 1);
+
+    item.appendChild(title);
+
+    const english = document.createElement("p");
+
+    english.textContent = "English: " + reminder.english;
+
+    item.appendChild(english);
+
+    const tamil = document.createElement("p");
+
+    tamil.textContent = "தமிழ்: " + reminder.tamil;
+
+    item.appendChild(tamil);
+
+    reminderList.appendChild(item);
+
+  });
+
 </script>
 
 </body>
