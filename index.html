@@ -7,9 +7,7 @@
   <title>Noor-e-Deen</title>
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
@@ -25,9 +23,7 @@
       padding: 25px 15px;
     }
 
-    header h1 {
-      margin: 0 0 8px;
-    }
+    header h1 { margin: 0 0 8px; }
 
     main {
       max-width: 600px;
@@ -43,9 +39,7 @@
       box-shadow: 0 3px 12px #00000020;
     }
 
-    h2 {
-      color: #D8EDFF;
-    }
+    h2 { color: #D8EDFF; }
 
     .dua-item {
       display: flex;
@@ -74,9 +68,7 @@
       place-items: center;
     }
 
-    .arrow {
-      margin-left: auto;
-    }
+    .arrow { margin-left: auto; }
 
     button {
       background: #D8EDFF;
@@ -111,9 +103,7 @@
       border-radius: 12px;
     }
 
-    .dua-block h3 {
-      color: #D8EDFF;
-    }
+    .dua-block h3 { color: #D8EDFF; }
 
     .dua-text {
       line-height: 1.9;
@@ -130,9 +120,7 @@
       margin-bottom: 15px;
     }
 
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     .reminder-item {
       background: #245486;
@@ -142,8 +130,21 @@
       line-height: 1.8;
     }
 
-    .reminder-item p {
-      margin: 6px 0;
+    .reminder-item p { margin: 6px 0; }
+
+    .quiz-question {
+      background: #245486;
+      padding: 15px;
+      margin: 15px 0;
+      border-radius: 12px;
+      line-height: 1.8;
+    }
+
+    .quiz-question button { margin: 5px 3px; }
+
+    .quiz-result {
+      font-weight: bold;
+      min-height: 24px;
     }
 
     footer {
@@ -188,21 +189,45 @@
   <section class="card">
     <h2>📖 Islamic Quiz</h2>
 
-    <p>
-      <strong>English:</strong>
-      How many obligatory prayers are there each day?
-    </p>
+    <div class="quiz-question">
+      <h3>Question 1</h3>
 
-    <p>
-      <strong>தமிழ்:</strong>
-      ஒவ்வொரு நாளும் எத்தனை நேரத் தொழுகைகள் கடமையாக்கப்பட்டுள்ளன?
-    </p>
+      <p>
+        <strong>English:</strong>
+        How many obligatory prayers are there each day?
+      </p>
 
-    <button onclick="checkAnswer(5)">5</button>
-    <button onclick="checkAnswer(3)">3</button>
-    <button onclick="checkAnswer(7)">7</button>
+      <p>
+        <strong>தமிழ்:</strong>
+        ஒவ்வொரு நாளும் எத்தனை நேரத் தொழுகைகள் கடமையாக்கப்பட்டுள்ளன?
+      </p>
 
-    <p id="result" aria-live="polite"></p>
+      <button onclick="checkAnswer(1, 5)">5</button>
+      <button onclick="checkAnswer(1, 3)">3</button>
+      <button onclick="checkAnswer(1, 7)">7</button>
+
+      <p id="result1" class="quiz-result" aria-live="polite"></p>
+    </div>
+
+    <div class="quiz-question">
+      <h3>Question 2</h3>
+
+      <p>
+        <strong>English:</strong>
+        Which action is not befitting of any Prophet?
+      </p>
+
+      <p>
+        <strong>தமிழ்:</strong>
+        எந்த நபிக்கும் தகுதியானது அல்லாத செயல் எது?
+      </p>
+
+      <button onclick="checkAnswer(2, 1)">1. மோசடி செய்வது – Cheating</button>
+      <button onclick="checkAnswer(2, 2)">2. உண்மை பேசுவது – Speaking the truth</button>
+      <button onclick="checkAnswer(2, 3)">3. பொறுமையாக இருப்பது – Being patient</button>
+
+      <p id="result2" class="quiz-result" aria-live="polite"></p>
+    </div>
   </section>
 
   <!-- DAILY REMINDER -->
@@ -396,14 +421,20 @@
 
   // ISLAMIC QUIZ
 
-  function checkAnswer(answer) {
+  function checkAnswer(questionNumber, answer) {
 
-    const result = document.getElementById("result");
+    const result = document.getElementById("result" + questionNumber);
 
-    result.textContent = answer === 5
+    let correctAnswer;
 
+    if (questionNumber === 1) {
+      correctAnswer = 5;
+    } else if (questionNumber === 2) {
+      correctAnswer = 1;
+    }
+
+    result.textContent = answer === correctAnswer
       ? "Correct! MashaAllah 🌟 / சரியான பதில்! மாஷா அல்லாஹ் 🌟"
-
       : "Try again! / மீண்டும் முயற்சி செய்யுங்கள்!";
 
   }
@@ -416,8 +447,12 @@
 
     {
       english: "Take a little time today for prayer, gratitude and remembrance of Allah.",
-
       tamil: "இன்று தொழுகை, நன்றியுணர்வு மற்றும் அல்லாஹ்வை நினைவுகூர்வதற்காகச் சிறிது நேரம் ஒதுக்குங்கள்."
+    },
+
+    {
+      english: "When your Creator heals you this time, don't go back to what ruined you. 🤍",
+      tamil: ""
     }
 
   ];
@@ -441,15 +476,17 @@
 
     const english = document.createElement("p");
 
-    english.textContent = "English: " + reminder.english;
+    english.textContent = reminder.english;
 
     item.appendChild(english);
 
-    const tamil = document.createElement("p");
+    if (reminder.tamil) {
+      const tamil = document.createElement("p");
 
-    tamil.textContent = "தமிழ்: " + reminder.tamil;
+      tamil.textContent = "தமிழ்: " + reminder.tamil;
 
-    item.appendChild(tamil);
+      item.appendChild(tamil);
+    }
 
     reminderList.appendChild(item);
 
